@@ -26,7 +26,7 @@ Customer_Number=100
 #车辆最大容量
 Capacity=200
 #搜索迭代次数
-Iter_Max=500
+Iter_Max=1000
 
 #禁忌长度 禁止在之后的20次迭代中对禁忌表中所记录的状态进行改变,这里的20禁忌长度
 Tabu_tenure=20
@@ -75,7 +75,7 @@ def ReadIn_and_Initialization():
     global Route_Ans
     global Graph
     global Ans
-    f=open('data/R101.txt','r')
+    f=open('R101.txt','r')
     lines=f.readlines()
     Customer_Type_Value=[None]
     for line in lines:
@@ -242,6 +242,7 @@ def Calculation(R,Cus,NewR):
     #计算所有路径的总长度
     for i in range(1,Vehicle_Number+1):
         D+=R[i].Dis
+    #print("总成本:",D+Alpha*Q+Beta*T)
     return D+Alpha*Q+Beta*T
 
 #for i in range(1,len(Route)):
@@ -357,7 +358,7 @@ def Tabu_Search():
                            #加入路径的承载量
                            Route[j].Load+=Customer[i].Demand
                            #加入路径的总长度
-                           Route[j].Dis=Route[j].Dis - Graph[Route[j].V[l - 1].Number][Route[j].V[l].Number]+ Graph[Route[j].V[l - 1].Number][Customer[i].Number] + Graph[Route[j].V[l].Number][Customer[i].Number];
+                           Route[j].Dis=Route[j].Dis - Graph[Route[j].V[l - 1].Number][Route[j].V[l].Number]+ Graph[Route[j].V[l - 1].Number][Customer[i].Number] + Graph[Route[j].V[l].Number][Customer[i].Number]
                            #在节点新路径中插入节点
                            Route[j].V.insert(l,Customer[i])
                            #单条路径 违反各节点时间窗约束 时长总和
@@ -426,6 +427,10 @@ def Tabu_Search():
                     ArriveTime = Route[Customer[BestC].R].V[j].Begin
         #为节点重新赋值
         Customer[BestC].R=BestR
+        amount_load=0
+        for i in range(1,Vehicle_Number+1):
+            amount_load+=Route[i].Dis
+        print(amount_load)
         #如果优打破禁忌规则
         #Check()方法修改Alpha和Beta的值，如果载重和时间窗约束都满足并且优于之前的值，保存到最优的路径变量中
         if Check(Route)==True and Ans>BestV:

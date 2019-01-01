@@ -43,7 +43,7 @@ def generateOpttour():
 def getsubsets(vertex):
     global idtoset
     #子集的数量用2进制来表示
-    #这里最后sure_flag得到的是1000000 即2^6种子集
+    #这里最后sure_flag得到的是1000000 即2^6种子集 1向左移动6位
     sure_flag =1<<len(vertex)
     #idd存放所有的子集一共2^n种情况
     idd=0
@@ -93,6 +93,7 @@ for k in range(1,n-1):
             v_min=10000
             value=0
             for j in subset:
+                #从子集中移除j元素
                 Aminusj=Remove(subset,j)
                 idj=settoid(Aminusj)
                 value=graph[i][j]+D[j][idj]
