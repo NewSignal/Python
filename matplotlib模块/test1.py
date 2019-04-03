@@ -5,6 +5,7 @@ from random import sample
 import matplotlib.pyplot as plt
 
 data=pd.read_excel("data/test.xlsx","Customer_data")
+print(type(data["first_receive_tm"][55]))
 #在前1000个节点中随机选取200个客户节点
 choice_index=sample(range(1,1001),200)
 pos=[[data["lng"][0],data["lat"][0]]]
