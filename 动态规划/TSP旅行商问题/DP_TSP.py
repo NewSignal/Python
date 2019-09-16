@@ -80,22 +80,22 @@ P=np.array([([0]*(1<<len(vertex))) for i in range(n)])
 for i in range(1,n):
     D[i][0]=graph[i][0]
     
-for k in range(1,n-1):
+for k in range(1,n-1):#子集中一共可能会出现1~5中情况
     #遍历子集的所有情况
     for v_id in range(0,len(idtoset)):
         subset=copy.deepcopy(idtoset[v_id])
         #将子集中元素的数量不满足的子集剔除
         if len(subset)!=k:
             continue
-        for i in range(1,n):
-            if (i in subset):
+        for i in range(1,n):#i表示是不在子集中的节点编号
+            if (i in subset):#i如果在子集中结束
                 continue
             v_min=10000
             value=0
-            for j in subset:
+            for j in subset:#从子集中依次删除存在的元素
                 #从子集中移除j元素
                 Aminusj=Remove(subset,j)
-                idj=settoid(Aminusj)
+                idj=settoid(Aminusj)#获得删除j元素后的子集在32个子集中的位置
                 value=graph[i][j]+D[j][idj]
                 if value<v_min and value!=0:
                     v_min=value
